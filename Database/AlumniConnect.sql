@@ -24,12 +24,15 @@ CREATE TABLE Users (
 CREATE TABLE Alumni (
 	ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	FullName VARCHAR(255) NOT NULL,
+	Gender VARCHAR(20) NOT NULL,
+	Birthday Date NOT NULL, 
 	Phone VARCHAR(30), -- this should avoid all odd formatting errors and extensions
 	Email VARCHAR(100),
+	Degree VARCHAR(100) NOT NULL,
 	Website VARCHAR(255),
 	LinkedInURL VARCHAR(255),
 	Bio VARCHAR(255) NOT NULL,
-	Friends MEDIUMTEXT, -- as array of ID e.g. {1, 14, 19}
+	GraduationYear INT NOT NULL,
 	PictureURL VARCHAR(255), --URL link to picture
 	User_ID VARCHAR(100) NOT NULL,
 	FOREIGN KEY (User_ID) REFERENCES Users(Username)
