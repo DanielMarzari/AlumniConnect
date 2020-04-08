@@ -1,4 +1,6 @@
 var http = require('http');
+var mysql = require('mysql');
+var connection, data, query;
 
 http.createServer(function (req, res) {
 	
@@ -11,18 +13,18 @@ http.createServer(function (req, res) {
     req.on('end', () => {//console.log(sql);
 	//https://itnext.io/how-to-handle-the-post-request-body-in-node-js-without-using-a-framework-cd2038b93190
 	
-		var mysql = require('mysql');
-		var connection = mysql.createConnection({
+		mysql = require('mysql');
+		connection = mysql.createConnection({
 		  host: 'localhost',
 		  user: 'root',
 		  password: '',
 		  database: 'alumnidb'
 		});
-		var data= [];
+		data = [];
 
 		connection.connect();
 		console.log(sql);
-		var query = connection.query(sql);
+		query = connection.query(sql);
 		query
 			.on('error', function(err) {
 				console.log(err);
@@ -55,7 +57,6 @@ http.createServer(function (req, res) {
 
 //https://github.com/mysqljs/mysql
 //https://stackoverflow.com/questions/25113083/loading-html-page-in-node-js
-//http://localhost:8888/
 //https://www.w3resource.com/node.js/nodejs-mysql.php
 //http://localhost:8080/practice/Backend/index.php
 //https://www.w3schools.com/nodejs/nodejs_mysql_select.asp
