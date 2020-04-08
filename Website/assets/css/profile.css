@@ -66,7 +66,7 @@ th {
 .fields {
 	float:left;
 	margin-left: 9%;
-	height: 10px;
+	height: 20px;
 }
 
 .personal {
@@ -114,4 +114,22 @@ p{
 	float:right;
 	margin-right: 10%;
 	
+}
+
+.bxs-edit{
+	float:right;
+	font-size: 18px;
+}
+
+#picurl{
+	width: 100%;
+    margin-left: 0% !important;
+	height: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.edit{
+	border: 1px solid black; 
+	background: white; 
 }
