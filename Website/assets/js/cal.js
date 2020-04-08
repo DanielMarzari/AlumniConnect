@@ -17,7 +17,7 @@ function makeCalander(){
 	mon.innerText = MOY[currentMonth];
 	year.innerText = currentYear;
 	cal.innerHTML = "";
-	
+	descrip.innerText = "Click an event for more details.";
 	//fill the names of the days of the week
 	for (var i = 0; i < 7; i++){
 		day = document.createElement('span');
@@ -68,16 +68,16 @@ function makeEvent(color, col, row, duration, caption, location, hours, descript
 	event.className = 'task task--primary';
 	event.onclick = function(){
 		if(hours > 1){
-			document.getElementById("description").innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
+			descrip.innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
 			description + "<br><b>Invitees: </b>" + invitees + " ("+ hours + " hours)" + 
 			"<br>For more information contact " + coordinator + " (<a href='mailto:" + email + "'>" + email + "</a>)";
 		}else{
 			if(hours == 1){
-				document.getElementById("description").innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
+				descrip.innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
 				description + "<br><b>Invitees: </b>" + invitees + " (1 hour)" + 
 				"<br>For more information contact " + coordinator + " (<a href='mailto:" + email + "'>" + email + "</a>)";
 			}else{ //0
-				document.getElementById("description").innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
+				descrip.innerHTML = "<b>Location:</b> " + location + "<br><b>Description: </b>" + 
 				description + "<br><b>Invitees: </b>" + invitees +
 				"<br>For more information contact " + coordinator + " (<a href='mailto:" + email + "'>" + email + "</a>)";
 			}
@@ -174,5 +174,44 @@ function processSQL(res){
 
 makeCalander();
 
-//var cr = dateToGrid(9);
-//makeEvent('blue', cr[0], cr[1], 1, "class");
+//--------------------------------------------------------------------------------------------------------------------
+function logout(){
+	if(getCookie("admin") == ""){
+		document.cookie = 'UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}else{
+		document.cookie = 'admin=; UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}
+	window.location.href = 'index.html';
+}
+
+window.onload = function(e){
+	var lastTab = document.getElementById("lastTab");
+	var cookie = getCookie("UID");
+	if(cookie == ""){
+		lastTab.innerHTML = "<a href='../practice/login.html'>Login</a>";
+	}else{
+		lastTab.innerHTML = "<a href='../practice/profile.html'>Profile</a>";
+		var tabs = document.getElementById("tabs");
+		if(getCookie("admin")=="true"){
+			tabs.innerHTML += "<li><a href='reports.html'>Reporting</a></li>";
+		}
+		tabs.innerHTML += "<li><a href='search.html'>Search</a></li>";
+		tabs.innerHTML += "<li onclick='logout()'><a href='index.html'>Logout</a></li>";
+	}
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
