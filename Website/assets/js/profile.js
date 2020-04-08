@@ -1,5 +1,6 @@
 var profilePicture = document.getElementById("picture");
 var profileName = document.getElementById("name");
+var picURL = document.getElementById("picurl");
 
 var contactNumber = document.getElementById("number");
 var contactWebsite = document.getElementById("website");
@@ -17,26 +18,38 @@ var infoJob = document.getElementById("job");
 var updateBtn = document.getElementById("updateBtn");
 var workExp = document.getElementById("workexp");
 
-
 var updated = false;
-
+var ID;
 // ---------------------------------------------------------------------------------------------------------------------------------
-contactNumber.addEventListener('input', userUpdate);
-contactWebsite.addEventListener('input', userUpdate);
-contactEmail.addEventListener('input', userUpdate);
-contactLinked.addEventListener('input', userUpdate);
-contactSlack.addEventListener('input', userUpdate);
-infoBio.addEventListener('input', userUpdate);
-infoBday.addEventListener('input', userUpdate);
-infoGender.addEventListener('input', userUpdate);
-infoGyear.addEventListener('input', userUpdate);
-infoDegree.addEventListener('input', userUpdate);
-infoJob.addEventListener('input', userUpdate);
-profileName.addEventListener('input', userUpdate);
+contentArr = [contactNumber, contactWebsite, contactEmail, contactLinked, infoBio, infoBday, infoGender, infoGyear, infoDegree, infoJob, profileName];
+
+function addEL(){
+	for(var i=0; i< contentArr.length; i++){
+		contentArr[i].addEventListener('input', userUpdate);
+	}
+}
+
+
+function setEditable(section){
+	if(picURL.hidden){
+		picURL.hidden = false;
+		picURL.classList.add("edit");
+		for(var i=0; i< contentArr.length; i++){
+			contentArr[i].classList.add("edit");
+			contentArr[i].contentEditable = 'true';
+		}
+	}else{
+		picURL.hidden = true;
+		picURL.classList.remove("edit");
+		for(var i=0; i< contentArr.length; i++){
+			contentArr[i].classList.remove("edit");
+			contentArr[i].contentEditable = 'true';
+		}
+	}
+}
 
 function userUpdate(){
 	updateBtn.style="display:block;";
-	//onclick="this.style.display='none';"
 	updated = true;
 }
 
@@ -51,26 +64,27 @@ function makeHttpObject() {
 }
 
 function processInfoSQL(res){
-	var json_res = JSON.parse(res).response;
-	profilePicture.src = json_res[0].PictureURL ;
-	
-	profileName.innerText = json_res[0].FullName;
-	contactNumber.innerText = json_res[0].Phone;
-	contactWebsite.innerHTML = "<a href='" + json_res[0].Website + "'>" + json_res[0].Website + "</a>";
-	contactEmail.innerText = json_res[0].Email;
-	contactLinked.innerHTML = "<a href='" + json_res[0].LinkedInURL + "'>" + json_res[0].LinkedInURL + "</a>";
-	contactSlack.innerText = "Not yet available";
+	with(JSON.parse(res).response[0]){
+		profilePicture.src = PictureURL;
+		picURL.innerText = PictureURL;
+		profileName.innerText = FullName;
+		contactNumber.innerText = Phone;
+		contactWebsite.innerHTML = "<a href='" + Website + "'>" + Website + "</a>";
+		contactEmail.innerText = Email;
+		contactLinked.innerHTML = "<a href='" + LinkedInURL + "'>" + LinkedInURL + "</a>";
+		contactSlack.innerText = "Not yet available";
 
-	infoBio.innerText = json_res[0].Bio;
-	infoBday.innerText = (new Date(json_res[0].Birthday)).toLocaleDateString(); //reformat this to mm/dd/yyy
-	infoGender.innerText = json_res[0].Gender;
-	infoGyear.innerText = json_res[0].GraduationYear;
-	infoDegree.innerText = json_res[0].Degree;
-	
+		infoBio.innerText = Bio;
+		infoBday.innerText = (new Date(Birthday)).toLocaleDateString();
+		infoGender.innerText = Gender;
+		infoGyear.innerText = GraduationYear;
+		infoDegree.innerText = Degree;
+	}
 }
 
 function processWorkSQL(res){
 	var json_res = JSON.parse(res).response;
+	console.log(json_res);
 	infoJob.innerText = json_res[0].Title + " at " + json_res[0].Company;
 	var data = []
 	for	(var i = 0; i < json_res.length; i++){ 
@@ -87,6 +101,11 @@ function processWorkSQL(res){
 	}
 }
 
+function processUpdateSQL(res){
+	var json_res = JSON.parse(res).response;
+	console.log(json_res);
+	//This should check if there was an error
+}
 
 function makeExp(arr){
 	var div1 = document.createElement('div');
@@ -107,15 +126,10 @@ function makeExp(arr){
 	h6.appendChild(textnode3);
 	p.appendChild(textnode4);
 	
-	h4.contentEditable = "true";
-	h5.contentEditable = "true";
-	h6.contentEditable = "true";
-	p.contentEditable = "true";
-	
-	h4.addEventListener('input', userUpdate);
-	h5.addEventListener('input', userUpdate);
-	h6.addEventListener('input', userUpdate);
-	p.addEventListener('input', userUpdate);
+	contentArr.push(h4);
+	contentArr.push(h5);
+	contentArr.push(h6);
+	contentArr.push(p);
 	
 	div2.appendChild(h4);
 	div2.appendChild(h5);
@@ -125,10 +139,11 @@ function makeExp(arr){
 	div1.appendChild(div2);
 
 	workExp.appendChild(div1);
+	addEL();
 }
 
 function removeTable(){
-	workExp.innerHTML = "<div class='panel-heading'><h3 class='panel-title'>Expierence</h3></div>";
+	workExp.innerHTML = "<div class='panel-heading'><h3 class='panel-title'>Expierence<i class = 'bx bxs-edit' onclick='setEditable(2)'></i></h3></div>";
 }
 
 function profileSQL(){
@@ -141,13 +156,13 @@ function profileSQL(){
 	request.onreadystatechange = function() {
 		if (request.readyState == 4){
 			processInfoSQL(request.responseText);
+			workSQL();
 		}
 	};
 	//https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 }
 
 function workSQL(){
-	//Distinct FullName
 	var sql = "SELECT * FROM workhistory WHERE Alumni_ID = " + ID + " ORDER BY CASE WHEN EndDate IS NULL THEN CURDATE() ELSE EndDate END DESC";
 	removeTable();
 	var request = makeHttpObject();
@@ -160,6 +175,129 @@ function workSQL(){
 	};
 	//https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 }
-var ID = 29;
-profileSQL();
-workSQL();
+
+function updateSQL(){
+	setEditable(4, 'false');
+	updateBtn.style="display:none;";
+	
+	var sqlArr = [];
+	var sql = "";
+	var sdate, edate;
+	
+	//Delete work history
+	sqlArr.push("DELETE FROM workhistory WHERE Alumni_ID = " + ID + "; ");
+	sql = "INSERT INTO workhistory VALUES ";
+	for(var i = 1; i < workExp.children.length; i++){	
+		with(workExp.children[i].children[0]){
+		sdate = new Date(children[2].innerText.split(' - ')[0]);
+		
+			sql += '(NULL, "' + children[1].innerText.split(' - ')[0] + '", ' + //Company
+				'"' + children[0].innerText + '", ' +  //Title
+				'"' + children[1].innerText.split(' - ')[1] + '", ' +  //Time 
+				'"' + sdate.getFullYear() + '-' + ('00' + (sdate.getMonth()+1)).slice(-2) + '-' + ('00' + sdate.getDate()).slice(-2) + '", '; //StartDate
+			if(children[2].innerText.split(' - ')[1] == 'Present'){
+				sql += 'NULL, '; //EndDate
+			}else{
+				edate = new Date(children[2].innerText.split(' - ')[1]);
+				sql += '"' + edate.getFullYear() + '-' + ('00' + (edate.getMonth()+1)).slice(-2) + '-' + ('00' + edate.getDate()).slice(-2) + '", '; //EndDate
+			}
+			sql += '"' + children[3].innerText + '", ' + 
+				ID + ')'; //Description
+		}
+		if(i == (workExp.children.length-1)){
+			sql += '; ';
+		}else{
+			sql += ', ';
+		}
+	}
+	sqlArr.push(sql);
+	
+	var bdate = new Date(infoBday.innerText);
+	
+	sql = 'UPDATE alumni SET FullName = "' + profileName.innerText + '", ' +  
+		  'Gender = "' + infoGender.innerText + '", ' + 
+		  'Birthday = "' +  bdate.getFullYear() + '-' + ('00' + (bdate.getMonth()+1)).slice(-2) + '-' + ('00' + bdate.getDate()).slice(-2) + '", ' + //convert this to yyyy/mm/dd
+		  'Phone = "' + contactNumber.innerText + '", ' + 
+		  'Email = "' + contactEmail.innerText + '", ' + 
+		  'Degree = "' + infoDegree.innerText + '", ' + 
+		  'Website = "' + contactWebsite.innerText + '", ' + 
+		  'LinkedInURL = "' + contactLinked.innerText + '", ' + 
+		  'Bio = "' + infoBio.innerText + '", ' + 
+		  'GraduationYear = ' + infoGyear.innerText + ', ' + 
+		  'PictureURL = "' + picURL.innerText +	'" ' + 
+		  'WHERE ID = ' + ID + ';';
+	
+	sqlArr.push(sql);
+	sendSQL(sqlArr, processUpdateSQL);
+}
+
+function sendSQL(sqlarr, funct){
+	var request = makeHttpObject();
+	request.open("POST", "http://localhost:8888", true);
+	request.send(sqlarr[0]); 
+	request.onreadystatechange = function() {
+		if (request.readyState == 4){
+			funct(request.responseText);
+			if(sqlarr.length > 1){
+				sqlarr.shift();
+				sendSQL(sqlarr, funct);
+			}
+		}
+	};//https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
+}
+
+function logout(){
+	if(getCookie("admin") == ""){
+		document.cookie = 'UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}else{
+		document.cookie = 'admin=; UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}
+	window.location.href = 'index.html';
+}
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
+function getID(){
+	if(window.location.href.includes("#")){
+		ID = window.location.href.split("#")[1];
+		
+		loadpage();
+	}else{
+		var cookie = getCookie("UID");
+		sendSQL(["SELECT ID FROM alumni WHERE MD5(ID) = '" + cookie + "'"], function(e){
+			var json_res = JSON.parse(e).response;
+			ID = json_res[0].ID;
+			loadpage();
+		});
+	}
+}
+
+function loadpage(){
+	profileSQL();
+}
+
+window.onload = getID();
+
+var tabs = document.getElementById("tabs");
+if(window.location.href.includes("#")){
+	tabs.innerHTML += '<li><a href="profile.html">Profile</a></li>'
+}
+if(getCookie("admin") == "true"){
+	tabs.innerHTML += '<li><a href="reports.html">Reporting</a></li>'
+}
+tabs.innerHTML += '<li><a href="search.html">Search</a></li>'
+tabs.innerHTML += '<li onclick="logout()"><a href="index.html">Logout</a></li>'
