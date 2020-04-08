@@ -58,7 +58,7 @@ function makeRow(arr){
 	}
 	var cell = document.createElement('td');	
 	var link = document.createElement('a');
-	link.href = arr[4]; //needs to be full link
+	link.href = "profile.html#" + arr[4];
 	var textnode = document.createTextNode("View Profile");
 	link.appendChild(textnode);
 	cell.appendChild(link);
@@ -101,4 +101,36 @@ function colourize() {
   }
 }
 
+function logout(){
+	if(getCookie("admin") == ""){
+		document.cookie = 'UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}else{
+		document.cookie = 'admin=; UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}
+	window.location.href = 'index.html';
+}
+
 window.onload = colourize;
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
+var tabs = document.getElementById("tabs");
+tabs.innerHTML += '<li><a href="profile.html">Profile</a></li>'
+if(getCookie("admin") == "true"){
+	tabs.innerHTML += '<li><a href="reports.html">Reporting</a></li>'
+}
+tabs.innerHTML += '<li onclick="logout()"><a href="index.html">Logout</a></li>'
