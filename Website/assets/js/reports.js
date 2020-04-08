@@ -177,3 +177,33 @@ function downloadCSV(){
 		document.body.removeChild(link);
 	}
 }
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for(var i = 0; i <ca.length; i++) {
+		var c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
+	}
+	return "";
+}
+
+function logout(){
+	if(getCookie("admin") == ""){
+		document.cookie = 'UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}else{
+		document.cookie = 'admin=; UID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+	}
+	window.location.href = 'index.html';
+}
+
+var tabs = document.getElementById("tabs");
+tabs.innerHTML += '<li><a href="profile.html">Profile</a></li>'
+tabs.innerHTML += '<li><a href="search.html">Search</a></li>'
+tabs.innerHTML += '<li onclick="logout()"><a href="index.html">Logout</a></li>'
