@@ -50,7 +50,7 @@
 
       <nav class="nav-menu float-right d-none d-lg-block">
         <ul>
-          <li class="active"><a href="#header">Home</a></li>
+          <li class="active"><a href="index.html#header">Home</a></li>
           <li><a href="#about">About Us</a></li>
           <li><a href="#events">Events</a></li>
           <li><a href="https://www.spiritshop.com/school/pennsylvania/langhorne/cairn-university">Store</a></li> <!-- change this-->
@@ -64,7 +64,11 @@
               <li><a href="https://cairn.edu/hr/jobs/">Employment Opportunites at Cairn</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Profile</a></li>
+		  <li class="drop-down"><a href="">AlumniConnect</a>
+            <ul id="tabs">
+				
+            </ul>
+          </li>
         </ul>
       </nav><!-- .nav-menu -->
 
@@ -83,29 +87,30 @@
 					<div class="text-center">
 						<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" id="picture" class="avatar img-circle img-thumbnail" alt="avatar">
 						<h2 id="name"></h2>
+						<p hidden="true" class="fields" id="picurl"></p>
 					</div><br>         
 					 
 					<div class="panel panel-default">
-						<div class="panel-heading">Contact Information</div>
+						<div class="panel-heading">Contact Information<i class = "bx bxs-edit" onclick="setEditable()"></i></div>
 						<div class="panel-body">
 							<i class="bx bxs-phone contactInfo" style="color:black;"></i>
-							<p contenteditable="true" class = "fields"  id = "number"></p>
+							<p class="fields"  id="number"></p>
 						</div>
 						<div class="panel-body">
 							<i class="bx bx-link-external contactInfo" style="color:green;"></i>
-							<p contenteditable="true" class = "fields"  id = "website"></p>
+							<p class = "fields"  id = "website"></p>
 						</div>
 						<div class="panel-body">
 							<i class="bx bxs-envelope contactInfo" style="color:orange;"></i>
-							<p contenteditable="true" class = "fields"  id = "email"></p>
+							<p class = "fields"  id = "email"></p>
 						</div>
 						<div class="panel-body">
 							<i class="bx bxl-linkedin-square contactInfo" style="color:blue;"></i>
-							<p contenteditable="true" class = "fields" id = "linkedin"></p>
+							<p class = "fields" id = "linkedin"></p>
 						</div>
 						<div class="panel-body">
 							<i class="bx bxl-slack contactInfo" style="color:purple;"></i>
-							<p contenteditable="true" class = "fields" id = "slack"></p>
+							<p class = "fields" id = "slack"></p>
 						</div>
 					</div>
 				  
@@ -115,43 +120,43 @@
 						<div class="tab-pane active" id="home">
 							<div class="panel panel-info" style="margin: 1em;">
 								<div class="panel-heading">
-									<h3 class="panel-title">Personal Information</h3>
+									<h3 class="panel-title">Personal Information<i class = "bx bxs-edit" onclick="setEditable()"></i></h3>
 								</div>
 								<div class="panel-body">
 									<i class='bx bx-align-left personal'></i>
 									<span class="about-item-name">Bio:</span>
-									<span contenteditable="true" class="about-item-detail" id="bio"></span>
+									<span class="about-item-detail" id="bio"></span>
 								</div>
 								<div class="panel-body">
 									<i class="bx bx-cake personal"></i>
 									<span class="about-item-name">Birthday:</span>
-									<span contenteditable="true" class="about-item-detail" id="bday"></span>
+									<span class="about-item-detail" id="bday"></span>
 								</div>
 								<div class="panel-body">
 									<i class="bx bx-user personal"></i>
 									<span class="about-item-name">Gender:</span>
-									<span contenteditable="true" class="about-item-detail" id="gender"></span>
+									<span class="about-item-detail" id="gender"></span>
 								</div>
 								<div class="panel-body">
 									<i class="bx bxs-graduation personal"></i>
 									<span class="about-item-name">Graduation Year:</span>
-									<span contenteditable="true" class="about-item-detail" id="gradyear"></span>
+									<span class="about-item-detail" id="gradyear"></span>
 								</div>
 								<div class="panel-body">
 									<i class="bx bxs-school personal"></i>
 									<span class="about-item-name">Degree:</span>
-									<span contenteditable="true" class="about-item-detail" id="degree"></span>
+									<span class="about-item-detail" id="degree"></span>
 								</div>
 								<div class="panel-body">
 									<i class="bx bx-briefcase personal"></i>
 									<span class="about-item-name">Profession:</span>
-									<span contenteditable="true" class="about-item-detail" id="job"></span>
+									<span class="about-item-detail" id="job"></span>
 								</div>
 							</div>
 							
 							<div id = "workexp" class="panel panel-info" style="margin: 1em;">
 								<div class="panel-heading">
-									<h3 class="panel-title">Expierence</h3>
+									<h3 class="panel-title">Expierence<i class = "bx bxs-edit" onclick="setEditable()"></i></h3>
 								</div>
 								<div class="panel panel-info" id="workExp1" style="margin: 1em;">
 									<div>
@@ -166,7 +171,7 @@
 						</div>
 					</div><!--/tab-pane-->	
 					
-					<button id="updateBtn" style="display:none">Update</button>
+					<button id="updateBtn" style="display:none" onclick="updateSQL()">Update</button>
 				</div><!--/col-9-->
 				
 			</div><!--/row-->
@@ -201,9 +206,9 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#header">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#events">Events</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../practice/index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../practice/index.html#about">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="../practice/index.html#events">Events</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> <!--add link for terms page and privacy policy -->
               <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>
@@ -263,7 +268,6 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/profile.js"></script>
-  <script src="assets/js/api.js"></script>
 </body>
 
 </html>
