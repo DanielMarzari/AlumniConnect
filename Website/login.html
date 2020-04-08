@@ -27,7 +27,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/home.css" rel="stylesheet">
-  <link href="assets/css/profile.css" rel="stylesheet">
+  <link href="assets/css/login.css" rel="stylesheet">
   <!-- This needs to be removed -->
   
   <!-- =======================================================
@@ -36,6 +36,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  
 </head>
 
 <body>
@@ -50,9 +51,9 @@
 
       <nav class="nav-menu float-right d-none d-lg-block">
         <ul>
-          <li class="active"><a href="#header">Home</a></li>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#events">Events</a></li>
+          <li class="active"><a href="../practice/index.html">Home</a></li>
+          <li><a href="../practice/index.html#about">About Us</a></li>
+          <li><a href="../practice/index.html#events">Events</a></li>
           <li><a href="https://www.spiritshop.com/school/pennsylvania/langhorne/cairn-university">Store</a></li> <!-- change this-->
           <li><a href="https://alumni-connect-forum.slack.com/">Forum</a></li>
           <li class="drop-down"><a href="">Services</a>
@@ -64,7 +65,6 @@
               <li><a href="https://cairn.edu/hr/jobs/">Employment Opportunites at Cairn</a></li>
             </ul>
           </li>
-          <li><a href="#contact">Profile</a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
@@ -73,9 +73,35 @@
  
   <main id="main">
 
-    <!-- ======= Our Team Section ======= -->
-	<section>	
+    <!-- ======= Login Section ======= -->
+	<section>		
 
+	<div class="login-center">
+		<div class="login-panel panel panel-default">
+            <div class="panel-heading">
+				<h3 class="panel-title">Sign In</h3>
+			</div>
+			<div class="panel-body">
+				<fieldset>
+					<div class="form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="bx bxs-user"></i></span>
+							<input id="uname" class="login" placeholder="Username" name="Username" type="Username" autofocus="">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="bx bxs-key"></i></span>
+							<input id="pword" class="login" placeholder="Password" name="password" type="password" value="">
+						</div>
+					</div>
+					<p hidden="true" id="onError">If you are having trouble logging in, please contact Tech Services at <a href="mailto:TS@cairn.edu">TS@cairn.edu<a/></p>
+					<!-- Change this to a button or input when using this as a form -->
+					<button onclick="login()" class="btn btn-sm btn-success">Login</button>
+				</fieldset>
+			</div>
+		</div>
+	</div>
 
 	</section>
 
@@ -83,62 +109,7 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6 footer-info">
-            <h3>Cairn </h3>
-            <p>
-              200 Manor Avenue, Langhorne<br>
-              PA 19047, USA<br><br>
-              <strong>Phone:</strong> (215) 702-4393<br>
-              <strong>Email:</strong> alumni@cairn.edu<br>
-            </p>
-            <div class="social-links mt-3">
-              <a href="https://twitter.com/CairnU" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="https://www.facebook.com/CairnU/" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="https://www.instagram.com/cairnu" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="https://www.youtube.com/cairnu" class="youtube"><i class="bx bxl-youtube"></i></a>
-              <a href="https://www.linkedin.com/school/cairn-university/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#header">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#events">Events</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li> <!--add link for terms page and privacy policy -->
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="https://cairn.edu/alumni/update/">Update Your Information</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="https://tsorder.studentclearinghouse.org/school/welcome">Request a Transcript</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="https://drive.google.com/file/d/1LCow63CI0PDEIm4WUAneeYxJ-1FZFDCl/view">Replacement Diplomas</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="https://cairn.edu/careercenter/#careerex">Post or Search for Jobs</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="https://cairn.edu/hr/jobs/">Employment Opportunites at Cairn</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Sign up for our email blast for monthly updates!</p>
-            <form action="" method="post">
-              <input type="email" name="email"><a href="https://cairn.edu/enews/"><input type="submit" value="Subscribe"><a>
-            </form>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-
+    
     <div class="container">
       <div class="copyright">
         &copy; Copyright <strong><span>Mamba</span></strong>. All Rights Reserved
@@ -168,8 +139,7 @@
   <script src="assets/vendor/aos/aos.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/profile.js"></script>
-  <script src="assets/js/api.js"></script>
+  <script src="assets/js/login.js"></script>
 </body>
 
 </html>
