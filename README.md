@@ -1,2 +1,0 @@
-# AlumniConnect
-CIS 332
